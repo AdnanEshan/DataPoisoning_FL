@@ -6,12 +6,22 @@ from federated_learning.utils import replace_1_with_3
 from federated_learning.utils import replace_6_with_0
 from federated_learning.worker_selection import PoisonerProbability
 from server import run_exp
+import numpy as np
+
+def replace_1_with_9_30percent(data):
+    new_data = []
+    for d in data:
+        if d == 1 and np.random.rand() < 0.3:
+            new_data.append(9)
+        else:
+            new_data.append(d)
+    return new_data
 
 if __name__ == '__main__':
     START_EXP_IDX = 3000
     NUM_EXP = 3
     NUM_POISONED_WORKERS = 0
-    REPLACEMENT_METHOD = replace_1_with_9
+    REPLACEMENT_METHOD = replace_1_with_9_30percent
     KWARGS = {
         "PoisonerProbability_BREAK_EPOCH" : 75,
         "PoisonerProbability_POST_BREAK_EPOCH_PROBABILITY" : 0.6,
